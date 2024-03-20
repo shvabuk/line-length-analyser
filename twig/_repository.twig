@@ -1,0 +1,61 @@
+<div class="repository">
+    <h2>{{repository.name}}</h2>
+    <p>
+      Path: {{repository.path}}<br>
+      File search pattern: {{repository.pattern}}<br>
+      File exclude pattern: <i>{{repository.excludePattern}}</i><br>
+    </p>
+
+    <h3>Files:</h3>
+    <table>
+        <thead>
+            <tr>
+                <td>File</td>
+                <td>Line count</td>
+                <td>Max line length</td>
+                <td>Mean line length</td>
+                <td>Median line length</td>
+                <td>Empty lines</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for file in repository.results %}
+            <tr>
+                <td>{{file.name}}</td>
+                <td>{{file.lineCount}}</td>
+                <td>{{file.maxLineLength}} <i>(line: {{file.widestLineNumber}})</i></td>
+                <td>{{file.meanLineLength}}</td>
+                <td>{{file.medianLineLength}}</td>
+                <td>{{file.emptyLinesPercent}}%</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <canvas id="canvas_{{repository.index}}" class="canvas"
+      height="{{ repository.results.length * 50  + 70}}px"
+    ></canvas>
+    <script>
+      results[{{repository.index}}] = {
+        labels: [
+          {% for file in repository.results %}
+            '{{ file.name }}',
+          {% endfor %}
+        ],
+        datasets: [{
+          label: 'Lines',
+          backgroundColor: 'rgba(66,158,217,0.5)',
+          borderColor: 'rgb(66,158,217)',
+          borderWidth: 1,
+          outlierColor: '#999999',
+          padding: 10,
+          itemRadius: 2,
+          data: [
+            {% for file in repository.results %}
+              [{{ file.lengths }}],
+            {% endfor %}
+          ]
+        }]
+      };
+    </script>
+</div>

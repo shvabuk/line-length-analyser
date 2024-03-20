@@ -1,0 +1,37 @@
+{
+  "name": "line-length-analyser",
+  "version": "1.0.0",
+  "description": "Line length analyser",
+  "scripts": {
+    "start": "node ./index.js",
+    "compile": "rollup --config config/rollup.config.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shvabuk/line-length-analyser.git"
+  },
+  "keywords": [
+    "analyse",
+    "analyze",
+    "measure",
+    "line",
+    "code"
+  ],
+  "author": "Ostap Shvab",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shvabuk/line-length-analyser/issues"
+  },
+  "homepage": "https://github.com/shvabuk/line-length-analyser",
+  "devDependencies": {
+    "decompress": "^4.2.1",
+    "follow-redirects": "^1.15.5",
+    "glob": "^10.3.10",
+    "pretty": "^2.0.0",
+    "rollup": "^4.13.0",
+    "twig": "^1.17.1"
+  }
+}

@@ -1,0 +1,86 @@
+{% set site_name = 'Ostap Shvab github pages' %}
+{% set site_url = 'shvabuk.github.io' %}
+{% set site_image = 'https://shvabuk.github.io/assets/images/og.png' %}
+{% set contact_email = 'shvabuk@gmail.com' %}
+{% set contact_linkedin = 'https://www.linkedin.com/in/ostap-shvab-3a555341/' %}
+{% set github_repository = 'https://github.com/shvabuk' %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta name="description" content="Line length analyser">
+
+        <meta name="robots" content="noindex,nofollow">
+
+        <title>Line length analyser</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    {% endblock %}
+    {% block style %}
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        background-color: $white;
+    }
+
+    canvas {
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      width: 100%;
+      height: 100vh;
+    }
+    </style>
+    {% endblock %}
+</head>
+<body class="body">
+
+    <header class="header">
+        <h1>Line length analyser</h1>
+        <p>Version: {{ version }}</p>
+    </header>
+
+    <div class="content">
+
+        <main class="main">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
+
+    <footer class="footer">
+        {% block footer %}
+            
+        {% endblock %}
+    </footer>
+
+    {% block scripts %}
+        <script src="https://unpkg.com/chart.js@^4.4"></script>
+        <script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@^4.3/build/index.umd.min.js"></script>
+    {% endblock %}
+
+</body>
+</html>

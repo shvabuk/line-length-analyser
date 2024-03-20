@@ -1,0 +1,8 @@
+[
+    {
+        "name": "Satellite tracker",
+        "source": "https://github.com/shvabuk/satellite-tracker/archive/master.zip",
+        "path": "src",
+        "extensions": [".js"]
+    }
+]

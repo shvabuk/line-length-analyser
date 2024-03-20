@@ -1,0 +1,44 @@
+{% extends "_base.twig" %}
+
+{% block head %}
+    {{ parent() }}
+
+    <script>
+        const bars = [];
+        const ctx = [];
+        const results = [];
+
+        window.onload = () => {
+            results.forEach((result, index) => {
+                ctx[index] = document.getElementById("canvas_"+index).getContext("2d");
+
+                bars[index] = new Chart(ctx[index], {
+                    type: 'boxplot',
+                    data: result,
+                    options: {
+                        scales: {
+                            x: {
+                                position: 'top'
+                            },
+                        },
+                        indexAxis: 'y',
+                        responsive: true,
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Box Plot Chart'
+                        }
+                    }
+                });
+            });
+        };
+    </script>
+{% endblock %}
+
+{% block content %}
+    {% for repository in repositories %}
+        {% include "_repository.twig" %}
+    {% endfor %}
+{% endblock %}
