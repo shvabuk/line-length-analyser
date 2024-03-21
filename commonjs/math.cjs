@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.0.0 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.0.1 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 

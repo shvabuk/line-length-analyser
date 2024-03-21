@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.0.0 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.0.1 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -7,11 +7,11 @@
 'use strict';
 
 const fs = require('node:fs');
-const archiveDownloader = require('./archive-downloader.js');
+const archiveDownloader = require('./archive-downloader.cjs');
 require('node:path');
 require('decompress');
 require('follow-redirects');
-require('./helper.js');
+require('./helper.cjs');
 require('twig');
 require('pretty');
 
@@ -48,7 +48,7 @@ class RepositoriesDownloader {
     }
 
     #readJSON(filePath) {
-        const url = new URL(filePath, (typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('repositories-downloader.js', document.baseURI).href)));
+        const url = new URL(filePath, (typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('repositories-downloader.cjs', document.baseURI).href)));
     
         if (fs.existsSync(url)) {
             const content = fs.readFileSync(url);

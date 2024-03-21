@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.0.0 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.0.1 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -10,7 +10,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const decompress = require('decompress');
 const followRedirects = require('follow-redirects');
-const helper = require('./helper.js');
+const helper = require('./helper.cjs');
 require('twig');
 require('pretty');
 

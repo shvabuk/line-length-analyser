@@ -1,19 +1,19 @@
 /*!
-  * Line length analyser v1.0.0 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.0.1 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
   */
 'use strict';
 
-const repositoryAnalyser = require('./repository-analyser.js');
-const helper = require('./helper.js');
+const repositoryAnalyser = require('./repository-analyser.cjs');
+const helper = require('./helper.cjs');
 require('glob');
-require('./file-analyser.js');
+require('./file-analyser.cjs');
 require('node:fs');
 require('node:path');
 require('node:readline');
-require('./math.js');
+require('./math.cjs');
 require('twig');
 require('pretty');
 
@@ -50,10 +50,7 @@ class LineLengthAnalyser {
         const promises = this.#analysers.map(repoAnalyser => repoAnalyser.run());
 
         return Promise.all(promises).then(results => {
-            this.#results = results.map((result, index) => {
-                result.index = index;
-                return result;
-            });
+            this.#results = results;
 
             return this.#results;
         });

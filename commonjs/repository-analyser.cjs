@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.0.0 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.0.1 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -7,12 +7,12 @@
 'use strict';
 
 const glob = require('glob');
-const fileAnalyser = require('./file-analyser.js');
-const helper = require('./helper.js');
+const fileAnalyser = require('./file-analyser.cjs');
+const helper = require('./helper.cjs');
 const path = require('node:path');
 require('node:fs');
 require('node:readline');
-require('./math.js');
+require('./math.cjs');
 require('twig');
 require('pretty');
 

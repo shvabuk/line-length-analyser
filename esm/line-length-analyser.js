@@ -34,10 +34,7 @@ export default class LineLengthAnalyser {
         const promises = this.#analysers.map(repoAnalyser => repoAnalyser.run());
 
         return Promise.all(promises).then(results => {
-            this.#results = results.map((result, index) => {
-                result.index = index;
-                return result;
-            });
+            this.#results = results;
 
             return this.#results;
         });

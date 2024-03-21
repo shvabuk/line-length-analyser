@@ -2,7 +2,7 @@
 
 ## About
 This is a library for simple code line lenght analysis.
-An example of how to use the library you can find in the file [index.js](https://github.com/shvabuk/line-length-analyser/blob/main/index.js).
+An example of how to use the library you can find in the file [example.js](https://github.com/shvabuk/line-length-analyser/blob/main/example.js).
 You can find the results on [the screenshot](https://github.com/shvabuk/line-length-analyser/blob/main/screenshot.png).
 ![Screenshot](https://github.com/shvabuk/line-length-analyser/blob/main/screenshot.png?raw=true)
 
@@ -124,7 +124,6 @@ interface RepositoryResults {
     minLineLength: number;
     settings: Settings;
     results: FileResults[];
-    index: number;
 }
 ```
 

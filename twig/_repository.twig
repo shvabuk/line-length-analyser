@@ -32,11 +32,11 @@
         </tbody>
     </table>
 
-    <canvas id="canvas_{{repository.index}}" class="canvas"
+    <canvas id="canvas_{{loop.index0}}" class="canvas"
       height="{{ repository.results.length * 50  + 70}}px"
     ></canvas>
     <script>
-      results[{{repository.index}}] = {
+      results[{{loop.index0}}] = {
         labels: [
           {% for file in repository.results %}
             '{{ file.name }}',
