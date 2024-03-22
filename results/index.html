@@ -23,30 +23,38 @@
       const results = [];
 
       window.onload = () => {
-        results.forEach((result, index) => {
-          ctx[index] = document.getElementById("canvas_" + index).getContext("2d");
+        let i = -1;
 
-          bars[index] = new Chart(ctx[index], {
-            type: 'boxplot',
-            data: result,
-            options: {
-              scales: {
-                x: {
-                  position: 'top'
+        results.forEach((unit, repoIndex) => {
+          unit.forEach((result, unitIndex) => {
+            i++;
+
+            ctx[i] = document.getElementById("canvas_" + repoIndex + "_" + unitIndex).getContext("2d");
+
+            bars[i] = new Chart(ctx[i], {
+              type: 'boxplot',
+              data: result,
+              options: {
+                scales: {
+                  x: {
+                    position: 'top'
+                  },
                 },
-              },
-              indexAxis: 'y',
-              responsive: true,
-              legend: {
-                position: 'top',
-              },
-              title: {
-                display: true,
-                text: 'Box Plot Chart'
+                indexAxis: 'y',
+                responsive: true,
+                legend: {
+                  position: 'top',
+                },
+                title: {
+                  display: true,
+                  text: 'Box Plot Chart'
+                }
               }
-            }
+            });
           });
         });
+
+        console.log(ctx, results);
       };
     </script>
     <style>
@@ -81,19 +89,21 @@
 
     <header class="header">
       <h1>Line length analyser</h1>
-      <p>Version: 1.0.1</p>
+      <p>Version: 1.1.0</p>
     </header>
 
     <div class="content">
 
       <main class="main">
+
+
         <div class="repository">
           <h2>Satellite tracker</h2>
-          <p>
-            Path: repositories/satellite-tracker/src<br>
-            File search pattern: repositories/satellite-tracker/src/**/*.js<br>
-            File exclude pattern: <i>/^.*(\.min\.|gulpfile\.js).*$/i</i><br>
-          </p>
+
+
+
+
+          <h3>Unit of analysis: JS</h3>
 
           <h3>Files:</h3>
           <table>
@@ -109,7 +119,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>satellite.js</td>
+                <td>esm/satellite.js</td>
                 <td>47</td>
                 <td>94 <i>(line: 9)</i></td>
                 <td>34.96</td>
@@ -117,7 +127,7 @@
                 <td>19.15%</td>
               </tr>
               <tr>
-                <td>satellite-tracker.js</td>
+                <td>esm/satellite-tracker.js</td>
                 <td>77</td>
                 <td>81 <i>(line: 54)</i></td>
                 <td>27.27</td>
@@ -125,7 +135,7 @@
                 <td>10.39%</td>
               </tr>
               <tr>
-                <td>iss-tracker.js</td>
+                <td>esm/iss-tracker.js</td>
                 <td>16</td>
                 <td>58 <i>(line: 3)</i></td>
                 <td>23.4</td>
@@ -133,7 +143,7 @@
                 <td>6.25%</td>
               </tr>
               <tr>
-                <td>helper.js</td>
+                <td>esm/helper.js</td>
                 <td>18</td>
                 <td>53 <i>(line: 10)</i></td>
                 <td>29.17</td>
@@ -141,7 +151,7 @@
                 <td>11.11%</td>
               </tr>
               <tr>
-                <td>dom-handler.js</td>
+                <td>esm/dom-handler.js</td>
                 <td>104</td>
                 <td>108 <i>(line: 99)</i></td>
                 <td>39.32</td>
@@ -151,15 +161,18 @@
             </tbody>
           </table>
 
-          <canvas id="canvas_0" class="canvas" height="320px"></canvas>
+          <canvas id="canvas_0_0" class="canvas" height="320px"></canvas>
           <script>
-            results[0] = {
+            if (!Array.isArray(results[0])) {
+              results[0] = [];
+            }
+            results[0][0] = {
               labels: [
-                'satellite.js',
-                'satellite-tracker.js',
-                'iss-tracker.js',
-                'helper.js',
-                'dom-handler.js',
+                'esm/satellite.js',
+                'esm/satellite-tracker.js',
+                'esm/iss-tracker.js',
+                'esm/helper.js',
+                'esm/dom-handler.js',
               ],
               datasets: [{
                 label: 'Lines',
@@ -182,11 +195,11 @@
         </div>
         <div class="repository">
           <h2>Line length analyser</h2>
-          <p>
-            Path: esm<br>
-            File search pattern: esm/**/*.js<br>
-            File exclude pattern: <i>/^.*(\.min\.|gulpfile\.js).*$/i</i><br>
-          </p>
+
+
+
+
+          <h3>Unit of analysis: JS</h3>
 
           <h3>Files:</h3>
           <table>
@@ -202,7 +215,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>repository-analyser.js</td>
+                <td>esm/repository-analyser.js</td>
                 <td>85</td>
                 <td>85 <i>(line: 20)</i></td>
                 <td>37.57</td>
@@ -210,7 +223,7 @@
                 <td>20%</td>
               </tr>
               <tr>
-                <td>repositories-downloader.js</td>
+                <td>esm/repositories-downloader.js</td>
                 <td>52</td>
                 <td>86 <i>(line: 9)</i></td>
                 <td>36.55</td>
@@ -218,7 +231,7 @@
                 <td>21.15%</td>
               </tr>
               <tr>
-                <td>math.js</td>
+                <td>esm/math.js</td>
                 <td>26</td>
                 <td>63 <i>(line: 16)</i></td>
                 <td>25.41</td>
@@ -226,7 +239,7 @@
                 <td>15.38%</td>
               </tr>
               <tr>
-                <td>line-length-analyser.js</td>
+                <td>esm/line-length-analyser.js</td>
                 <td>61</td>
                 <td>85 <i>(line: 17)</i></td>
                 <td>39.44</td>
@@ -234,7 +247,7 @@
                 <td>22.95%</td>
               </tr>
               <tr>
-                <td>helper.js</td>
+                <td>esm/helper.js</td>
                 <td>73</td>
                 <td>80 <i>(line: 30)</i></td>
                 <td>33.84</td>
@@ -242,7 +255,7 @@
                 <td>19.18%</td>
               </tr>
               <tr>
-                <td>file-analyser.js</td>
+                <td>esm/file-analyser.js</td>
                 <td>152</td>
                 <td>67 <i>(line: 83)</i></td>
                 <td>32.02</td>
@@ -250,7 +263,7 @@
                 <td>19.08%</td>
               </tr>
               <tr>
-                <td>archive-downloader.js</td>
+                <td>esm/archive-downloader.js</td>
                 <td>121</td>
                 <td>103 <i>(line: 50)</i></td>
                 <td>33.42</td>
@@ -260,17 +273,20 @@
             </tbody>
           </table>
 
-          <canvas id="canvas_1" class="canvas" height="420px"></canvas>
+          <canvas id="canvas_1_0" class="canvas" height="420px"></canvas>
           <script>
-            results[1] = {
+            if (!Array.isArray(results[1])) {
+              results[1] = [];
+            }
+            results[1][0] = {
               labels: [
-                'repository-analyser.js',
-                'repositories-downloader.js',
-                'math.js',
-                'line-length-analyser.js',
-                'helper.js',
-                'file-analyser.js',
-                'archive-downloader.js',
+                'esm/repository-analyser.js',
+                'esm/repositories-downloader.js',
+                'esm/math.js',
+                'esm/line-length-analyser.js',
+                'esm/helper.js',
+                'esm/file-analyser.js',
+                'esm/archive-downloader.js',
               ],
               datasets: [{
                 label: 'Lines',
@@ -288,6 +304,273 @@
                   [25, 29, 24, 28, 26, 35, 24, 17, 27, 43, 27, 53, 50, 8, 26, 14, 47, 38, 80, 30, 12, 24, 8, 54, 22, 34, 65, 16, 50, 26, 33, 46, 48, 51, 29, 48, 46, 19, 42, 49, 19, 44, 19],
                   [25, 29, 37, 55, 29, 35, 10, 6, 6, 15, 26, 24, 19, 22, 16, 20, 22, 14, 58, 18, 38, 28, 21, 17, 24, 13, 34, 56, 54, 41, 8, 18, 7, 41, 51, 45, 17, 33, 24, 58, 31, 18, 18, 51, 39, 55, 30, 25, 7, 29, 29, 29, 30, 32, 22, 67, 39, 26, 26, 37, 31, 41, 28, 37, 31, 43, 15, 8, 17, 17, 27, 37, 35, 45, 35, 41, 42, 60, 46, 60, 48, 23, 22, 47, 31, 57, 24, 56, 31, 57, 25, 59, 28, 27, 61, 28],
                   [25, 29, 36, 47, 40, 41, 12, 16, 19, 9, 12, 5, 7, 17, 23, 24, 31, 30, 38, 34, 38, 62, 71, 17, 5, 7, 23, 56, 34, 13, 36, 21, 17, 15, 13, 33, 103, 95, 41, 23, 59, 44, 44, 20, 25, 34, 53, 10, 28, 23, 12, 25, 23, 12, 14, 46, 46, 19, 30, 54, 16, 30, 41, 84, 85, 26, 77, 55, 37, 70, 8, 25, 47],
+                ]
+              }]
+            };
+          </script>
+        </div>
+        <div class="repository">
+          <h2>Github pages</h2>
+
+
+
+
+          <h3>Unit of analysis: JS</h3>
+
+          <h3>Files:</h3>
+          <table>
+            <thead>
+              <tr>
+                <td>File</td>
+                <td>Line count</td>
+                <td>Max line length</td>
+                <td>Mean line length</td>
+                <td>Median line length</td>
+                <td>Empty lines</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>js/tab-elements.js</td>
+                <td>50</td>
+                <td>54 <i>(line: 19)</i></td>
+                <td>32.52</td>
+                <td>31</td>
+                <td>22%</td>
+              </tr>
+              <tr>
+                <td>js/index.js</td>
+                <td>128</td>
+                <td>62 <i>(line: 3)</i></td>
+                <td>17.03</td>
+                <td>15</td>
+                <td>3.13%</td>
+              </tr>
+              <tr>
+                <td>js/collapse-elements.js</td>
+                <td>51</td>
+                <td>60 <i>(line: 13)</i></td>
+                <td>32.25</td>
+                <td>31</td>
+                <td>23.53%</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <canvas id="canvas_2_0" class="canvas" height="220px"></canvas>
+          <script>
+            if (!Array.isArray(results[2])) {
+              results[2] = [];
+            }
+            results[2][0] = {
+              labels: [
+                'js/tab-elements.js',
+                'js/index.js',
+                'js/collapse-elements.js',
+              ],
+              datasets: [{
+                label: 'Lines',
+                backgroundColor: 'rgba(66,158,217,0.5)',
+                borderColor: 'rgb(66,158,217)',
+                borderWidth: 1,
+                outlierColor: '#999999',
+                padding: 10,
+                itemRadius: 2,
+                data: [
+                  [34, 10, 45, 53, 20, 16, 35, 41, 19, 15, 54, 16, 24, 20, 42, 54, 28, 32, 31, 29, 22, 50, 50, 24, 50, 33, 31],
+                  [54, 44, 62, 50, 59, 32, 18, 29, 25, 29, 14, 11, 13, 12, 15, 31, 10, 18, 10, 17, 11, 11, 18, 12, 13, 10, 24, 13, 13, 12, 13, 16, 9, 16, 11, 19, 13, 9, 11, 15, 9, 16, 12, 16, 13, 16, 15, 16, 19, 15, 10, 9, 15, 11, 20, 16, 18, 18, 16, 12, 16, 15, 15, 18, 22, 11, 12, 16, 17, 12, 15, 14, 14, 10, 9, 16, 16, 12, 11, 16, 11, 14, 13, 10, 12, 16, 15, 9, 17, 11, 17, 21],
+                  [39, 10, 50, 53, 20, 16, 35, 41, 60, 18, 19, 8, 19, 15, 42, 29, 38, 29, 52, 15, 42, 29, 35, 32, 30, 22, 55, 50],
+                ]
+              }]
+            };
+          </script>
+
+
+          <h3>Unit of analysis: SCSS</h3>
+
+          <h3>Files:</h3>
+          <table>
+            <thead>
+              <tr>
+                <td>File</td>
+                <td>Line count</td>
+                <td>Max line length</td>
+                <td>Mean line length</td>
+                <td>Median line length</td>
+                <td>Empty lines</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>scss/style.scss</td>
+                <td>17</td>
+                <td>28 <i>(line: 14)</i></td>
+                <td>18.86</td>
+                <td>18</td>
+                <td>17.65%</td>
+              </tr>
+              <tr>
+                <td>scss/_variables.scss</td>
+                <td>47</td>
+                <td>47 <i>(line: 7)</i></td>
+                <td>29.69</td>
+                <td>30.5</td>
+                <td>10.64%</td>
+              </tr>
+              <tr>
+                <td>scss/_tabs.scss</td>
+                <td>37</td>
+                <td>99 <i>(line: 13)</i></td>
+                <td>26.08</td>
+                <td>18</td>
+                <td>13.51%</td>
+              </tr>
+              <tr>
+                <td>scss/_sidebar.scss</td>
+                <td>56</td>
+                <td>92 <i>(line: 9)</i></td>
+                <td>21.7</td>
+                <td>17</td>
+                <td>17.86%</td>
+              </tr>
+              <tr>
+                <td>scss/_satellite-tracker.scss</td>
+                <td>32</td>
+                <td>49 <i>(line: 4)</i></td>
+                <td>19.28</td>
+                <td>17</td>
+                <td>9.38%</td>
+              </tr>
+              <tr>
+                <td>scss/_repositories.scss</td>
+                <td>65</td>
+                <td>117 <i>(line: 55)</i></td>
+                <td>23.24</td>
+                <td>18</td>
+                <td>18.46%</td>
+              </tr>
+              <tr>
+                <td>scss/_normalize.scss</td>
+                <td>379</td>
+                <td>77 <i>(line: 4)</i></td>
+                <td>20.32</td>
+                <td>11</td>
+                <td>19.53%</td>
+              </tr>
+              <tr>
+                <td>scss/_navigation.scss</td>
+                <td>106</td>
+                <td>260 <i>(line: 51)</i></td>
+                <td>27.18</td>
+                <td>20</td>
+                <td>15.09%</td>
+              </tr>
+              <tr>
+                <td>scss/_mixins.scss</td>
+                <td>54</td>
+                <td>85 <i>(line: 19)</i></td>
+                <td>30.31</td>
+                <td>22</td>
+                <td>14.81%</td>
+              </tr>
+              <tr>
+                <td>scss/_main.scss</td>
+                <td>30</td>
+                <td>92 <i>(line: 16)</i></td>
+                <td>24.33</td>
+                <td>19.5</td>
+                <td>20%</td>
+              </tr>
+              <tr>
+                <td>scss/_keyframes.scss</td>
+                <td>11</td>
+                <td>18 <i>(line: 1)</i></td>
+                <td>9.71</td>
+                <td>11</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>scss/_header.scss</td>
+                <td>25</td>
+                <td>27 <i>(line: 7)</i></td>
+                <td>16.78</td>
+                <td>17</td>
+                <td>12%</td>
+              </tr>
+              <tr>
+                <td>scss/_footer.scss</td>
+                <td>18</td>
+                <td>43 <i>(line: 12)</i></td>
+                <td>20.36</td>
+                <td>19</td>
+                <td>16.67%</td>
+              </tr>
+              <tr>
+                <td>scss/_buttons.scss</td>
+                <td>47</td>
+                <td>214 <i>(line: 25)</i></td>
+                <td>33.54</td>
+                <td>23</td>
+                <td>8.51%</td>
+              </tr>
+              <tr>
+                <td>scss/_base.scss</td>
+                <td>122</td>
+                <td>53 <i>(line: 35)</i></td>
+                <td>18.08</td>
+                <td>18</td>
+                <td>15.57%</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <canvas id="canvas_2_1" class="canvas" height="820px"></canvas>
+          <script>
+            if (!Array.isArray(results[2])) {
+              results[2] = [];
+            }
+            results[2][1] = {
+              labels: [
+                'scss/style.scss',
+                'scss/_variables.scss',
+                'scss/_tabs.scss',
+                'scss/_sidebar.scss',
+                'scss/_satellite-tracker.scss',
+                'scss/_repositories.scss',
+                'scss/_normalize.scss',
+                'scss/_navigation.scss',
+                'scss/_mixins.scss',
+                'scss/_main.scss',
+                'scss/_keyframes.scss',
+                'scss/_header.scss',
+                'scss/_footer.scss',
+                'scss/_buttons.scss',
+                'scss/_base.scss',
+              ],
+              datasets: [{
+                label: 'Lines',
+                backgroundColor: 'rgba(66,158,217,0.5)',
+                borderColor: 'rgb(66,158,217)',
+                borderWidth: 1,
+                outlierColor: '#999999',
+                padding: 10,
+                itemRadius: 2,
+                data: [
+                  [20, 17, 20, 20, 15, 18, 15, 21, 17, 15, 18, 28, 17, 23],
+                  [22, 25, 21, 27, 29, 47, 37, 27, 33, 32, 29, 35, 32, 38, 27, 33, 26, 32, 27, 33, 24, 30, 25, 31, 24, 30, 29, 31, 31, 31, 32, 33, 33, 37, 18, 18],
+                  [14, 14, 16, 11, 17, 32, 13, 15, 19, 22, 99, 20, 30, 30, 45, 84, 9, 25, 26, 14, 27, 47, 12, 14, 8, 15],
+                  [11, 14, 23, 10, 42, 92, 28, 27, 33, 21, 19, 17, 14, 16, 17, 17, 19, 15, 24, 16, 15, 24, 19, 10, 8, 12, 15, 18, 18, 14, 38, 16, 14, 24, 37, 15, 31],
+                  [22, 19, 15, 49, 23, 17, 10, 12, 15, 12, 17, 19, 15, 11, 12, 19, 24, 24, 19, 10, 9, 33, 36, 25, 15],
+                  [27, 27, 15, 14, 23, 24, 44, 45, 20, 31, 13, 23, 49, 13, 14, 23, 19, 14, 18, 17, 19, 18, 18, 26, 18, 19, 14, 28, 12, 18, 18, 23, 18, 32, 16, 18, 117, 19, 15, 14, 9, 14],
+                  [76, 11, 77, 3, 45, 71, 2, 6, 18, 7, 31, 7, 11, 77, 3, 36, 2, 6, 10, 3, 47, 2, 6, 15, 3, 72, 52, 2, 4, 15, 17, 19, 77, 3, 43, 38, 2, 4, 24, 7, 10, 7, 18, 7, 3, 70, 54, 2, 5, 34, 7, 15, 7, 23, 77, 3, 54, 2, 3, 30, 3, 43, 76, 2, 13, 20, 7, 27, 7, 34, 7, 3, 58, 2, 2, 8, 20, 3, 70, 54, 2, 5, 4, 6, 34, 7, 15, 7, 3, 44, 2, 7, 15, 3, 68, 15, 2, 4, 5, 15, 15, 19, 25, 5, 16, 5, 12, 19, 77, 3, 52, 2, 5, 19, 8, 77, 3, 44, 45, 2, 7, 6, 9, 7, 10, 21, 7, 16, 7, 18, 7, 10, 7, 3, 26, 31, 2, 7, 7, 7, 18, 3, 68, 57, 2, 7, 8, 7, 21, 3, 67, 2, 7, 16, 15, 17, 27, 3, 49, 2, 25, 34, 33, 35, 19, 11, 3, 54, 2, 22, 31, 30, 32, 31, 3, 33, 2, 10, 31, 3, 46, 66, 75, 41, 2, 8, 23, 7, 15, 7, 15, 7, 16, 7, 11, 7, 20, 7, 3, 67, 2, 10, 25, 3, 50, 2, 10, 15, 3, 41, 33, 2, 18, 16, 23, 7, 11, 7, 3, 72, 2, 43, 44, 13, 3, 53, 41, 2, 17, 30, 7, 21, 7, 3, 57, 2, 44, 25, 3, 70, 51, 2, 30, 27, 7, 14, 7, 14, 77, 2, 55, 2, 9, 15, 2, 42, 2, 9, 19, 7, 77, 3, 36, 2, 10, 14, 3, 35, 2, 10, 14],
+                  [13, 22, 32, 23, 14, 16, 20, 31, 25, 10, 20, 17, 23, 19, 15, 30, 45, 22, 61, 34, 20, 14, 23, 22, 23, 22, 11, 61, 23, 22, 13, 14, 23, 29, 28, 22, 260, 17, 17, 13, 20, 14, 59, 9, 18, 18, 20, 27, 24, 17, 9, 14, 23, 16, 17, 17, 20, 20, 14, 15, 30, 15, 21, 22, 164, 10, 40, 28, 17, 16, 20, 21, 20],
+                  [18, 15, 21, 21, 21, 21, 22, 2, 27, 45, 57, 9, 85, 26, 70, 9, 70, 74, 26, 59, 9, 59, 52, 16, 17, 14, 30, 26, 8, 10, 14, 26, 22, 9, 51],
+                  [7, 14, 23, 20, 31, 7, 19, 10, 42, 92, 28, 27, 33, 21, 17, 14, 16, 17],
+                  [18, 5, 12, 5, 11, 5, 12],
+                  [9, 18, 19, 14, 26, 19, 27, 15, 19, 12, 13, 8, 9, 20, 25, 13, 16, 20],
+                  [9, 18, 32, 19, 14, 3, 36, 5, 43, 20, 25],
+                  [2, 9, 2, 29, 28, 29, 23, 16, 6, 22, 17, 17, 18, 19, 22, 23, 16, 18, 30, 29, 24, 15, 214, 8, 10, 19, 26, 9, 11, 54, 61, 67, 76, 61, 58, 61, 52, 55, 52],
+                  [3, 23, 5, 6, 12, 13, 6, 34, 16, 17, 25, 14, 3, 22, 19, 18, 22, 15, 9, 12, 15, 19, 9, 12, 31, 10, 8, 53, 20, 26, 12, 8, 23, 26, 22, 18, 12, 32, 21, 25, 21, 18, 35, 7, 12, 26, 17, 17, 20, 8, 38, 14, 11, 28, 20, 7, 28, 25, 37, 13, 15, 7, 14, 34, 20, 12, 8, 9, 9, 7, 12, 18, 19, 18, 10, 19, 27, 14, 23, 24, 20, 31, 20, 31],
                 ]
               }]
             };

@@ -53,6 +53,12 @@ export function createDir(dir, recursive = true) {
     }
 }
 
+export function remove(filePath, opts = { recursive: true, force: true }) {
+    if (fs.existsSync(filePath)) {
+        fs.rmSync(filePath, opts);
+    }
+}
+
 export function render(source, destination, data) {
     if (!fs.existsSync(source)) {
         throw new Error(`File: "${source} not found."`);

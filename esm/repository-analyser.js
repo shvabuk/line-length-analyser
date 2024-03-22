@@ -1,83 +1,59 @@
-import { glob } from 'glob';
-import FileAnalyser from './file-analyser.js';
+import ArhchiveDownloader from './archive-downloader.js';
+import RepositoryDecompresser from './repository-decompresser.js';
+import UnitAnalyser from './unit-analyser.js';
 import { deepMerge } from './helper.js';
-import path from 'node:path';
 
 export default class RepositoryAnalyser {
 
-    #repository;
+    #name;
     #settings;
-    #analysers;
+    #downloader;
+    #decompresser;
+    #unitsAnalysers;
 
-    constructor(repository, settings) {
-        this.#repository = repository;
+    constructor(settings) {
+        const rs = this.#initSettings(settings);
+        this.#name = settings.name;
+        this.#downloader = new ArhchiveDownloader(rs.name, rs.source);
+        this.#decompresser = new RepositoryDecompresser(this.#downloader.getPath(), rs.decompressExtensions);
+        this.#initUnitsAnalysers(this.#decompresser.getPath());
+    }
+
+    #initSettings(settings) {
+        if (!settings.name) {
+            throw new Error(`No repository name.`);
+        }
+
+        if (!settings.source) {
+            throw new Error(`No repository source.`);
+        }
+
+        if (!Array.isArray(settings.unitsOfAnalysis) || settings.unitsOfAnalysis.length === 0) {
+            throw new Error(`No units of analysis.`);
+        }
+
         this.#settings = deepMerge({
-            patternPrefix: '**/*', // prefix before extensions for "glob" files search
-            extensions: [], // leave empty array for any extension
-            excludePattern: /^.*\.min\..*$/i, // exclude file name RegEx pattern
-            line: {
-                filter: line => line, // we can transform line before counting line lenght
-                ignoreLength: -1, // "-1" means don't ignore, line.trim() is hardcoded for this value
-                commentBeginSymbols: [], // ignore lines started with symbols
-            }
+            decompressExtensions: [],
         }, settings);
 
-        this.#setAnalysers();
+        return this.#settings;
     }
 
-    #setAnalysers() {
-        const files = this.#getFiles();
-
-        this.#analysers = files.map(filePath => {
-            return new FileAnalyser(filePath, this.#repository.path, this.#settings.line);
-        });
-    }
-
-    #getFiles() {
-        const pattern = this.#getPattern();
-        const files = glob.sync(pattern);
-
-        return this.#exclude(files, this.#settings.excludePattern);
-    }
-
-    #getPattern() {
-        const exts = this.#settings.extensions.map(extension => {
-            return (extension.substring(0, 1) === '.')? extension: `.${extension}`;
-        });
-
-        let pattern = this.#settings.patternPrefix;
-
-        if (exts.length === 1) {
-            pattern = this.#settings.patternPrefix + exts[0];
-        }
-
-        if (exts.length > 1) {
-            pattern = `${this.#settings.patternPrefix}{${exts.join(',')}}`;
-        }
-
-        pattern = this.#repository.path + path.sep + pattern
-
-        return pattern;
-    }
-
-    #exclude(files, pattern) {
-        return files.filter(filePath => {
-            return !pattern.test(filePath);
-        });
+    #initUnitsAnalysers(repositoryPath) {
+        this.#unitsAnalysers = this.#settings.unitsOfAnalysis.map(unitSettings => {
+            return new UnitAnalyser(repositoryPath, unitSettings);
+        })
     }
 
     async run() {
-        const promises = this.#analysers.map(fileAnalyser => fileAnalyser.run());
+        await this.#downloader.download();
+        await this.#decompresser.decompress();
+
+        const promises = this.#unitsAnalysers.map(analyser => analyser.run());
 
         return Promise.all(promises).then(results => {
             return {
-                name: this.#repository.name,
-                path: this.#repository.path,
-                pattern: this.#getPattern(),
-                excludePattern: this.#settings.excludePattern.toString(),
-                lineFilter: this.#settings.line.filter.toString(),
-                minLineLength: this.#settings.line.ignoreLength + 1,
-                settings: this.#settings,
+                name: this.#name,
                 results,
             }
         });

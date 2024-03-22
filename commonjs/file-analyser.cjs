@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.0.1 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.1.0 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -16,9 +16,9 @@ require('pretty');
 
 class FileAnalyser {
 
-    #settings;
     #name;
     #path;
+    #settings;
     #lineCount = 0;
     #minLineLength = Infinity;
     #shortestLineNumber = 0;
@@ -29,24 +29,28 @@ class FileAnalyser {
     #commentLineCount = 0;
     #lengths = [];
 
-    constructor(path, nameExcludePrefix = '', settings = {}) {
+    constructor(path, repositoryPath = '', settings = {}) {
         this.#path = path;
-        this.#generateName(nameExcludePrefix);
-        this.#settings = helper.deepMerge({
-            filter: line => line,
-            ignoreLength: -1,
-            commentBeginSymbols: [],
-        }, settings);
+        this.#initName(repositoryPath);
+        this.#initSettings(settings);
     }
 
-    #generateName(nameExcludePrefix) {
-        const name = this.#path.slice(nameExcludePrefix.length);
+    #initName(repositoryPath) {
+        const name = this.#path.slice(repositoryPath.length);
 
         if (name.substring(0, path.sep.length) === path.sep) {
             this.#name = name.slice(path.sep.length);
         } else {
             this.#name = name;
         }
+    }
+
+    #initSettings(settings) {
+        this.#settings = helper.deepMerge({
+            filter: line => line,
+            ignoreLength: -1,
+            commentBeginSymbols: [],
+        }, settings);
     }
 
     run() {

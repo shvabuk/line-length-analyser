@@ -1,16 +1,21 @@
 /*!
-  * Line length analyser v1.0.1 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.1.0 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
   */
 'use strict';
 
-const glob = require('glob');
-const fileAnalyser = require('./file-analyser.cjs');
+const archiveDownloader = require('./archive-downloader.cjs');
+const repositoryDecompresser = require('./repository-decompresser.cjs');
+const unitAnalyser = require('./unit-analyser.cjs');
 const helper = require('./helper.cjs');
-const path = require('node:path');
 require('node:fs');
+require('node:path');
+require('follow-redirects');
+require('decompress');
+require('glob');
+require('./file-analyser.cjs');
 require('node:readline');
 require('./math.cjs');
 require('twig');
@@ -18,79 +23,55 @@ require('pretty');
 
 class RepositoryAnalyser {
 
-    #repository;
+    #name;
     #settings;
-    #analysers;
+    #downloader;
+    #decompresser;
+    #unitsAnalysers;
 
-    constructor(repository, settings) {
-        this.#repository = repository;
+    constructor(settings) {
+        const rs = this.#initSettings(settings);
+        this.#name = settings.name;
+        this.#downloader = new archiveDownloader(rs.name, rs.source);
+        this.#decompresser = new repositoryDecompresser(this.#downloader.getPath(), rs.decompressExtensions);
+        this.#initUnitsAnalysers(this.#decompresser.getPath());
+    }
+
+    #initSettings(settings) {
+        if (!settings.name) {
+            throw new Error(`No repository name.`);
+        }
+
+        if (!settings.source) {
+            throw new Error(`No repository source.`);
+        }
+
+        if (!Array.isArray(settings.unitsOfAnalysis) || settings.unitsOfAnalysis.length === 0) {
+            throw new Error(`No units of analysis.`);
+        }
+
         this.#settings = helper.deepMerge({
-            patternPrefix: '**/*', // prefix before extensions for "glob" files search
-            extensions: [], // leave empty array for any extension
-            excludePattern: /^.*\.min\..*$/i, // exclude file name RegEx pattern
-            line: {
-                filter: line => line, // we can transform line before counting line lenght
-                ignoreLength: -1, // "-1" means don't ignore, line.trim() is hardcoded for this value
-                commentBeginSymbols: [], // ignore lines started with symbols
-            }
+            decompressExtensions: [],
         }, settings);
 
-        this.#setAnalysers();
+        return this.#settings;
     }
 
-    #setAnalysers() {
-        const files = this.#getFiles();
-
-        this.#analysers = files.map(filePath => {
-            return new fileAnalyser(filePath, this.#repository.path, this.#settings.line);
-        });
-    }
-
-    #getFiles() {
-        const pattern = this.#getPattern();
-        const files = glob.glob.sync(pattern);
-
-        return this.#exclude(files, this.#settings.excludePattern);
-    }
-
-    #getPattern() {
-        const exts = this.#settings.extensions.map(extension => {
-            return (extension.substring(0, 1) === '.')? extension: `.${extension}`;
-        });
-
-        let pattern = this.#settings.patternPrefix;
-
-        if (exts.length === 1) {
-            pattern = this.#settings.patternPrefix + exts[0];
-        }
-
-        if (exts.length > 1) {
-            pattern = `${this.#settings.patternPrefix}{${exts.join(',')}}`;
-        }
-
-        pattern = this.#repository.path + path.sep + pattern;
-
-        return pattern;
-    }
-
-    #exclude(files, pattern) {
-        return files.filter(filePath => {
-            return !pattern.test(filePath);
+    #initUnitsAnalysers(repositoryPath) {
+        this.#unitsAnalysers = this.#settings.unitsOfAnalysis.map(unitSettings => {
+            return new unitAnalyser(repositoryPath, unitSettings);
         });
     }
 
     async run() {
-        const promises = this.#analysers.map(fileAnalyser => fileAnalyser.run());
+        await this.#downloader.download();
+        await this.#decompresser.decompress();
+
+        const promises = this.#unitsAnalysers.map(analyser => analyser.run());
 
         return Promise.all(promises).then(results => {
             return {
-                name: this.#repository.name,
-                path: this.#repository.path,
-                pattern: this.#getPattern(),
-                excludePattern: this.#settings.excludePattern.toString(),
-                lineFilter: this.#settings.line.filter.toString(),
-                minLineLength: this.#settings.line.ignoreLength + 1,
-                settings: this.#settings,
+                name: this.#name,
                 results,
             }
         });

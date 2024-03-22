@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.0.1 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.1.0 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -8,10 +8,15 @@
 
 const repositoryAnalyser = require('./repository-analyser.cjs');
 const helper = require('./helper.cjs');
-require('glob');
-require('./file-analyser.cjs');
+require('./archive-downloader.cjs');
 require('node:fs');
 require('node:path');
+require('follow-redirects');
+require('./repository-decompresser.cjs');
+require('decompress');
+require('./unit-analyser.cjs');
+require('glob');
+require('./file-analyser.cjs');
 require('node:readline');
 require('./math.cjs');
 require('twig');
@@ -19,27 +24,13 @@ require('pretty');
 
 class LineLengthAnalyser {
 
-    #settings;
     #analysers = [];
     #results = [];
 
-    constructor(settings = {}) {
-        this.#settings = helper.deepMerge({
-            patternPrefix: '**/*', // prefix before extensions for "glob" files search
-            extensions: [], // leave empty array for any extension
-            excludePattern: /^.*\.min\..*$/i, // exclude file name RegEx pattern
-            line: {
-                filter: line => line, // we can transform line before counting line lenght
-                ignoreLength: -1, // "-1" means don't ignore, line.trim() is hardcoded for this value
-                commentBeginSymbols: [], // ignore lines started with symbols
-            }
-        }, settings);
-    }
-
     addRepository(repository) {
-        const repoAnalyser = new repositoryAnalyser(repository, this.#settings);
+        const repositoryAnalyser$1 = new repositoryAnalyser(repository);
 
-        this.#analysers.push(repoAnalyser);
+        this.#analysers.push(repositoryAnalyser$1);
     }
 
     addRepositories(repositories) {
