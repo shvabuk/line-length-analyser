@@ -38,7 +38,7 @@ To save data to an HTML file using the Twig template, you can use the LineLength
 analyser.saveTwig('twig/index.twig', 'results/index.html');
 ```
 
-### LineLengthAnalyser interfaces
+### LineLengthAnalyser interface
 ```ts
 interface LineLengthAnalyser {
   addRepository(Repository): void;
@@ -47,7 +47,9 @@ interface LineLengthAnalyser {
   saveJSON(path: string): string;
   saveTwig(source: string, destination: string): string;
 }
-
+```
+### Related interfaces
+```ts
 interface Repository {
   name: string,
   source: string,
