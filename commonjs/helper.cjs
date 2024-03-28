@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.1.0 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.1.1 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -14,17 +14,15 @@ const Twig = require('twig');
 const pretty = require('pretty');
 
 // TODO: move to separate modules
+// TODO: remove Twig and pretty modules
 
-function isObject(value) {
-    return typeof value === 'object' &&
-        !Array.isArray(value) &&
-        value !== null &&
-        !(value instanceof RegExp);
+function isPlainObject(value) {
+    return value?.constructor === Object;
 }
 
 function deepMerge(target, source) {
     for (const key in source) {
-        if (isObject(target[key]) && isObject(source[key])) {
+        if (isPlainObject(target[key]) && isPlainObject(source[key])) {
             target[key] = deepMerge(target[key], source[key]);
         } else {
             target[key] = source[key];
@@ -91,6 +89,7 @@ function render(source, destination, data) {
 
 exports.createDir = createDir;
 exports.deepMerge = deepMerge;
+exports.isPlainObject = isPlainObject;
 exports.prettifyFloat = prettifyFloat;
 exports.remove = remove;
 exports.render = render;

@@ -1,19 +1,17 @@
 // TODO: move to separate modules
+// TODO: remove Twig and pretty modules
 import fs from 'node:fs';
 import path from 'node:path';
 import Twig from 'twig';
 import pretty from 'pretty';
 
-function isObject(value) {
-    return typeof value === 'object' &&
-        !Array.isArray(value) &&
-        value !== null &&
-        !(value instanceof RegExp);
+export function isPlainObject(value) {
+    return value?.constructor === Object;
 }
 
 export function deepMerge(target, source) {
     for (const key in source) {
-        if (isObject(target[key]) && isObject(source[key])) {
+        if (isPlainObject(target[key]) && isPlainObject(source[key])) {
             target[key] = deepMerge(target[key], source[key]);
         } else {
             target[key] = source[key];

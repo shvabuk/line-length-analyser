@@ -42,25 +42,25 @@
                 results[{{repoIndex}}] = [];
             }
             results[{{repoIndex}}][{{unitIndex}}] = {
-            labels: [
-                {% for file in units.results %}
-                '{{ file.name }}',
-                {% endfor %}
-            ],
-            datasets: [{
-                label: 'Lines',
-                backgroundColor: 'rgba(66,158,217,0.5)',
-                borderColor: 'rgb(66,158,217)',
-                borderWidth: 1,
-                outlierColor: '#999999',
-                padding: 10,
-                itemRadius: 2,
-                data: [
-                {% for file in units.results %}
-                    [{{ file.lengths }}],
-                {% endfor %}
-                ]
-            }]
+                labels: [
+                    {% for file in units.results %}
+                    '{{ file.name }}',
+                    {% endfor %}
+                ],
+                datasets: [{
+                    label: 'Lines',
+                    backgroundColor: 'rgba(66,158,217,0.5)',
+                    borderColor: 'rgb(66,158,217)',
+                    borderWidth: 1,
+                    outlierColor: '#999999',
+                    padding: 10,
+                    itemRadius: 2,
+                    data: [
+                    {% for file in units.results %}
+                        [{{ file.lengths }}],
+                    {% endfor %}
+                    ]
+                }]
             };
         </script>
     {% endfor %}
