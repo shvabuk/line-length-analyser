@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.1.1 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.2.0 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -9,9 +9,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const followRedirects = require('follow-redirects');
-const helper = require('./helper.cjs');
-require('twig');
-require('pretty');
+const fileAccess = require('./file-access.cjs');
 
 class ArhchiveDownloader {
 
@@ -33,14 +31,14 @@ class ArhchiveDownloader {
     }
 
     #initDirectory(archivesDir) {
-        helper.createDir(archivesDir);
+        fileAccess.createDir(archivesDir);
     }
 
     download() {
         const proto = this.#getProtocol();
 
         return new Promise((resolve, reject) => {
-            helper.remove(this.#path);
+            fileAccess.remove(this.#path);
 
             console.log(`${this.#name} download started.`);
 
@@ -57,12 +55,12 @@ class ArhchiveDownloader {
             });
         
             request.on('error', err => {
-                helper.remove(this.#path);
+                fileAccess.remove(this.#path);
                 reject(err);
             });
         
             file.on('error', err => {
-                helper.remove(this.#path);
+                fileAccess.remove(this.#path);
                 reject(err);
             });
         

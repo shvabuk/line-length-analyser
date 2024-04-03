@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.1.1 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.2.0 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -7,7 +7,7 @@
 'use strict';
 
 const repositoryAnalyser = require('./repository-analyser.cjs');
-const helper = require('./helper.cjs');
+const fileAccess = require('./file-access.cjs');
 require('./archive-downloader.cjs');
 require('node:fs');
 require('node:path');
@@ -18,9 +18,8 @@ require('./unit-analyser.cjs');
 require('glob');
 require('./file-analyser.cjs');
 require('node:readline');
+require('./helper.cjs');
 require('./math.cjs');
-require('twig');
-require('pretty');
 
 class LineLengthAnalyser {
 
@@ -56,14 +55,7 @@ class LineLengthAnalyser {
             return repository;
         });
 
-        return helper.saveJSON(path, JSONData);
-    }
-
-    saveTwig(source, destination) {
-        return helper.render(source, destination, {
-            version: process.env && process.env.npm_package_version,
-            repositories: this.#results,
-        });
+        return fileAccess.saveJSON(path, JSONData);
     }
 }
 

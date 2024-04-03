@@ -1,6 +1,6 @@
 import path from 'node:path';
 import decompress from 'decompress';
-import { remove, createDir } from './helper.js';
+import { remove, createDir } from './file-access.js';
 
 export default class RepositoryDecompresser {
 

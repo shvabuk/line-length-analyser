@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.1.1 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.2.0 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -13,13 +13,12 @@ const helper = require('./helper.cjs');
 require('node:fs');
 require('node:path');
 require('follow-redirects');
+require('./file-access.cjs');
 require('decompress');
 require('glob');
 require('./file-analyser.cjs');
 require('node:readline');
 require('./math.cjs');
-require('twig');
-require('pretty');
 
 class RepositoryAnalyser {
 

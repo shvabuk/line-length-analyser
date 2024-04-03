@@ -33,11 +33,6 @@ To save data to a JSON file, you can use the LineLengthAnalyser.prototype.saveJS
 analyser.saveJSON('results/data.json');
 ```
 
-To save data to an HTML file using the Twig template, you can use the LineLengthAnalyser.prototype.saveTwig(source: string, destination: string) method.
-```js
-analyser.saveTwig('twig/index.twig', 'results/index.html');
-```
-
 ### LineLengthAnalyser interface
 ```ts
 interface LineLengthAnalyser {
@@ -45,7 +40,6 @@ interface LineLengthAnalyser {
   addRepositories(Repository[]): void;
   run(): Promise<RepositoryResults[]>;
   saveJSON(path: string): string;
-  saveTwig(source: string, destination: string): string;
 }
 ```
 ### Related interfaces

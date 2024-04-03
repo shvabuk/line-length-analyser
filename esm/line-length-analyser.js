@@ -1,5 +1,5 @@
 import RepositoryAnalyser from './repository-analyser.js';
-import { saveJSON, render} from './helper.js';
+import { saveJSON } from './file-access.js';
 
 export default class LineLengthAnalyser {
 
@@ -36,12 +36,5 @@ export default class LineLengthAnalyser {
         });
 
         return saveJSON(path, JSONData);
-    }
-
-    saveTwig(source, destination) {
-        return render(source, destination, {
-            version: 0 || process.env && process.env.npm_package_version,
-            repositories: this.#results,
-        });
     }
 }

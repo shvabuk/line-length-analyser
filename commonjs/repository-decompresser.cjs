@@ -1,5 +1,5 @@
 /*!
-  * Line length analyser v1.1.1 (https://github.com/shvabuk/line-length-analyser)
+  * Line length analyser v1.2.0 (https://github.com/shvabuk/line-length-analyser)
   * Copyright 2024-2024 Ostap Shvab
   * Licensed under MIT (https://github.com/shvabuk/line-length-analyser/blob/master/LICENSE)
   * 
@@ -8,10 +8,8 @@
 
 const path = require('node:path');
 const decompress = require('decompress');
-const helper = require('./helper.cjs');
+const fileAccess = require('./file-access.cjs');
 require('node:fs');
-require('twig');
-require('pretty');
 
 class RepositoryDecompresser {
 
@@ -39,7 +37,7 @@ class RepositoryDecompresser {
     }
 
     #initDirectory(repositoriesDir) {
-        helper.createDir(repositoriesDir);
+        fileAccess.createDir(repositoriesDir);
     }
 
     async decompress() {
@@ -49,12 +47,12 @@ class RepositoryDecompresser {
             settings.filter = file => this.#allowedExtensions.includes(path.extname(file.path));
         }
         
-        helper.remove(this.#path);
+        fileAccess.remove(this.#path);
 
         return decompress(this.#archive, this.#path, settings).then(() => {
             console.log(`Repository ${this.#name} decompressed.`);
 
-            helper.remove(this.#archive);
+            fileAccess.remove(this.#archive);
 
             return this.#path;
         });
